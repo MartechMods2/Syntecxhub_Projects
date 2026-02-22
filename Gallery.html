@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Martech · syntecxhub | download · star · tags</title>
+  <!-- fonts & icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ----- CSS variables for light/dark theme ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-body: #f4f7fb;
+      --bg-card: #ffffff;
+      --text-primary: #1e2b37;
+      --text-secondary: #4a5f6e;
+      --accent: #2a9d8f;
+      --accent-soft: rgba(42, 157, 143, 0.15);
+      --shadow-sm: 0 10px 25px -8px rgba(0,40,40,0.1);
+      --shadow-hover: 0 30px 40px -15px rgba(42,157,143,0.25);
+      --overlay-dark: rgba(30,43,55,0.7);
+      --overlay-soft: rgba(42,157,143,0.3);
+      --toggle-bg: #e2e8f0;
+      --toggle-sun: #fbbf24;
+      --toggle-moon: #334155;
+      --card-border: transparent;
+      --scroll-track: #d0ddee;
+      --star-color: #fbbf24;
+      --download-color: #ffffff;
+    }
+
+    body.dark {
+      --bg-body: #121826;
+      --bg-card: #1e2638;
+      --text-primary: #edf2f7;
+      --text-secondary: #a0b3c9;
+      --accent: #4ecdc4;
+      --accent-soft: rgba(78, 205, 196, 0.2);
+      --shadow-sm: 0 10px 25px -8px rgba(0,0,0,0.5);
+      --shadow-hover: 0 30px 40px -15px #4ecdc4;
+      --overlay-dark: rgba(0,0,0,0.8);
+      --overlay-soft: rgba(78,205,196,0.3);
+      --toggle-bg: #2d3748;
+      --toggle-sun: #fbbf24;
+      --toggle-moon: #cbd5e0;
+      --card-border: rgba(78,205,196,0.2);
+      --scroll-track: #2d3748;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-primary);
+      line-height: 1.5;
+      transition: background-color 0.4s ease, color 0.3s ease;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1.5rem;
+      scroll-behavior: smooth;
+    }
+
+    .gallery-container {
+      max-width: 1400px;
+      width: 100%;
+    }
+
+    /* header – clean, no hints */
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+      animation: fadeInDown 0.6s ease-out;
+    }
+
+    .title-section h1 {
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(145deg, var(--text-primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      background: var(--toggle-bg);
+      border-radius: 60px;
+      padding: 0.3rem;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .theme-toggle input { display: none; }
+    .theme-toggle label {
+      width: 48px;
+      height: 48px;
+      border-radius: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.3s;
+    }
+    .theme-toggle label:first-child { color: var(--toggle-sun); }
+    .theme-toggle label:last-child { color: var(--toggle-moon); }
+    .theme-toggle input:checked + label {
+      background: var(--bg-card);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transform: scale(1.05);
+    }
+
+    /* ----- grid layout ----- */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    /* card base (shared between grid and horizontal) */
+    .card, .h-card {
+      position: relative;
+      border-radius: 32px;
+      overflow: hidden;
+      background: var(--bg-card);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+      aspect-ratio: 4 / 3;
+      border: 1px solid var(--card-border);
+      cursor: default;
+      animation: cardFloat 6s infinite ease-in-out;
+      transform-origin: center;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+
+    .card:hover, .h-card:hover {
+      animation-play-state: paused;
+      transform: perspective(1000px) rotateX(0.5deg) rotateY(0.5deg) translateY(-8px) scale(1.02);
+      box-shadow: var(--shadow-hover), inset 0 -2px 10px var(--accent-soft);
+      border-color: var(--accent);
+    }
+
+    /* glowing border */
+    .card::after, .h-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 32px;
+      padding: 2px;
+      background: radial-gradient(circle at 30% 30%, var(--accent), transparent 70%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+    .card:hover::after, .h-card:hover::after { opacity: 1; }
+
+    /* image wrapper */
+    .img-wrap {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #d0ddee;
+      position: relative;
+      border-radius: 32px;
+      transition: border-radius 0.3s;
+    }
+    .card:hover .img-wrap, .h-card:hover .img-wrap { border-radius: 36px; }
+    .img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.3, 1), filter 0.4s;
+      filter: brightness(1) saturate(1);
+    }
+    .card:hover .img-wrap img, .h-card:hover .img-wrap img {
+      transform: scale(1.12) rotate(0.8deg);
+      filter: brightness(1.08) contrast(1.05) saturate(1.2) hue-rotate(1deg) drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+    }
+
+    /* ----- new interactive overlay (star, download, tags) ----- */
+    .interactive-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, var(--overlay-dark), transparent);
+      padding: 1.5rem 1rem 1rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      backdrop-filter: blur(4px);
+      border-top: 1px solid var(--accent-soft);
+      z-index: 10;
+      pointer-events: none;
+    }
+    .card:hover .interactive-bar, .h-card:hover .interactive-bar {
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .left-actions {
+      display: flex;
+      gap: 1rem;
+    }
+    .action-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .action-btn:hover {
+      background: var(--accent);
+      transform: scale(1.15);
+      color: white;
+    }
+    .action-btn.starred i {
+      color: var(--star-color);
+      text-shadow: 0 0 10px gold;
+    }
+
+    .tags {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .tag {
+      background: var(--accent);
+      color: white;
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    .tag:hover {
+      transform: scale(1.05);
+    }
+
+    /* existing caption (can remain but we'll keep minimal) */
+    .caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, var(--bg-card), transparent 150%);
+      color: var(--text-primary);
+      padding: 1.8rem 1rem 1rem 1rem;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+      transform: translateY(100%);
+      transition: transform 0.4s ease-out, background 0.3s;
+      backdrop-filter: blur(4px);
+      border-top: 1px solid var(--accent-soft);
+      pointer-events: none;
+    }
+    .card:hover .caption, .h-card:hover .caption { transform: translateY(0); }
+
+    /* badge (optional) */
+    .badge-new {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--accent);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.3rem 0.8rem;
+      border-radius: 40px;
+      z-index: 5;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* horizontal scroll section */
+    .horizontal-section {
+      margin: 5rem 0 3rem;
+    }
+    .section-title h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2rem;
+    }
+    .scroll-container {
+      display: flex;
+      overflow-x: auto;
+      gap: 2rem;
+      padding: 0.5rem 0.2rem 2rem 0.2rem;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) var(--scroll-track);
+      -webkit-overflow-scrolling: touch;
+    }
+    .scroll-container::-webkit-scrollbar {
+      height: 8px;
+    }
+    .scroll-container::-webkit-scrollbar-track {
+      background: var(--scroll-track);
+      border-radius: 10px;
+    }
+    .scroll-container::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 10px;
+    }
+    .h-card {
+      flex: 0 0 300px;
+    }
+
+    /* footer – minimal */
+    .footer {
+      margin-top: 3rem;
+      padding: 1.5rem 0;
+      border-top: 1px dashed var(--accent);
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    @keyframes cardFloat {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* responsive */
+    @media (max-width: 1000px) {
+      .grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 700px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .h-card { flex: 0 0 260px; }
+    }
+    @media (max-width: 450px) {
+      .grid { grid-template-columns: 1fr; }
+      .h-card { flex: 0 0 220px; }
+    }
+  </style>
+</head>
+<body>
+<div class="gallery-container">
+  <div class="header">
+    <div class="title-section">
+      <h1>Martech · syntecxhub</h1>
+    </div>
+    <div class="theme-toggle">
+      <input type="radio" name="theme" id="light" checked>
+      <label for="light" onclick="setTheme('light')"><i class="fas fa-sun"></i></label>
+      <input type="radio" name="theme" id="dark">
+      <label for="dark" onclick="setTheme('dark')"><i class="fas fa-moon"></i></label>
+    </div>
+  </div>
+
+  <!-- main grid (12 cards) -->
+  <div class="grid">
+    <!-- card 1 -->
+    <div class="card" data-img="https://picsum.photos/id/1015/600/450" data-filename="mountain.jpg">
+      <div class="badge-new">featured</div>
+      <div class="img-wrap"><img src="https://picsum.photos/id/1015/600/450" alt="mountain" loading="lazy"></div>
+      <div class="caption">silent peak</div>
+      <div class="interactive-bar">
+        <div class="left-actions">
+          <button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button>
+          <button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button>
+        </div>
+        <div class="tags">
+          <span class="tag">landscape</span>
+          <span class="tag">alpine</span>
+        </div>
+      </div>
+    </div>
+    <!-- card 2 -->
+    <div class="card" data-img="https://picsum.photos/id/1043/600/450" data-filename="portrait.jpg">
+      <div class="img-wrap"><img src="https://picsum.photos/id/1043/600/450" alt="portrait" loading="lazy"></div>
+      <div class="caption">shadow walk</div>
+      <div class="interactive-bar">
+        <div class="left-actions">
+          <button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button>
+          <button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button>
+        </div>
+        <div class="tags"><span class="tag">portrait</span><span class="tag">urban</span></div>
+      </div>
+    </div>
+    <!-- card 3 -->
+    <div class="card" data-img="https://picsum.photos/id/15/600/450" data-filename="waterfall.jpg">
+      <div class="badge-new">new</div>
+      <div class="img-wrap"><img src="https://picsum.photos/id/15/600/450" alt="waterfall" loading="lazy"></div>
+      <div class="caption">wild falls</div>
+      <div class="interactive-bar">
+        <div class="left-actions">
+          <button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button>
+          <button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button>
+        </div>
+        <div class="tags"><span class="tag">nature</span><span class="tag">water</span></div>
+      </div>
+    </div>
+    <!-- card 4 -->
+    <div class="card" data-img="https://picsum.photos/id/26/600/450" data-filename="road.jpg">
+      <div class="img-wrap"><img src="https://picsum.photos/id/26/600/450" alt="road" loading="lazy"></div>
+      <div class="caption">night drive</div>
+      <div class="interactive-bar">
+        <div class="left-actions">
+          <button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button>
+          <button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button>
+        </div>
+        <div class="tags"><span class="tag">travel</span><span class="tag">road</span></div>
+      </div>
+    </div>
+    <!-- card 5-12 (similar structure, abbreviated for space) -->
+    <!-- card 5 -->
+    <div class="card" data-img="https://picsum.photos/id/36/600/450" data-filename="building.jpg">
+      <div class="img-wrap"><img src="https://picsum.photos/id/36/600/450" alt="building" loading="lazy"></div>
+      <div class="caption">vintage patio</div>
+      <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">architecture</span><span class="tag">historic</span></div></div>
+    </div>
+    <!-- card 6 -->
+    <div class="card" data-img="https://picsum.photos/id/42/600/450" data-filename="coffee.jpg">
+      <div class="img-wrap"><img src="https://picsum.photos/id/42/600/450" alt="coffee" loading="lazy"></div>
+      <div class="caption">morning ritual</div>
+      <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">lifestyle</span><span class="tag">coffee</span></div></div>
+    </div>
+    <!-- card 7 -->
+    <div class="card" data-img="https://picsum.photos/id/59/600/450" data-filename="train.jpg">
+      <div class="img-wrap"><img src="https://picsum.photos/id/59/600/450" alt="train" loading="lazy"></div>
+      <div class="caption">crimson express</div>
+      <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">transport</span><span class="tag">train</span></div></div>
+    </div>
+    <!-- card 8 -->
+    <div class="card" data-img="https://picsum.photos/id/65/600/450" data-filename="wave.jpg">
+      <div class="img-wrap"><img src="https://picsum.photos/id/65/600/450" alt="wave" loading="lazy"></div>
+      <div class="caption">rolling swell</div>
+      <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">ocean</span><span class="tag">wave</span></div></div>
+    </div>
+    <!-- card 9 -->
+    <div class="card" data-img="https://picsum.photos/id/84/600/450" data-filename="car.jpg">
+      <div class="img-wrap"><img src="https://picsum.photos/id/84/600/450" alt="car" loading="lazy"></div>
+      <div class="caption">'65 mustang</div>
+      <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">automotive</span><span class="tag">classic</span></div></div>
+    </div>
+    <!-- card 10 -->
+    <div class="card" data-img="https://picsum.photos/id/91/600/450" data-filename="bear.jpg">
+      <div class="img-wrap"><img src="https://picsum.photos/id/91/600/450" alt="bear" loading="lazy"></div>
+      <div class="caption">brown bear</div>
+      <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">wildlife</span><span class="tag">bear</span></div></div>
+    </div>
+    <!-- card 11 -->
+    <div class="card" data-img="https://picsum.photos/id/104/600/450" data-filename="pond.jpg">
+      <div class="img-wrap"><img src="https://picsum.photos/id/104/600/450" alt="pond" loading="lazy"></div>
+      <div class="caption">mirror pond</div>
+      <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">nature</span><span class="tag">water</span></div></div>
+    </div>
+    <!-- card 12 -->
+    <div class="card" data-img="https://picsum.photos/id/106/600/450" data-filename="flowers.jpg">
+      <div class="img-wrap"><img src="https://picsum.photos/id/106/600/450" alt="flowers" loading="lazy"></div>
+      <div class="caption">meadow bloom</div>
+      <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">flora</span><span class="tag">summer</span></div></div>
+    </div>
+  </div>
+
+  <!-- HORIZONTAL SCROLL SECTION (12 more images) -->
+  <div class="horizontal-section">
+    <div class="section-title"><h2>More · horizontal</h2></div>
+    <div class="scroll-container">
+      <!-- horizontal cards with same interactive elements -->
+      <div class="h-card" data-img="https://picsum.photos/id/100/600/450" data-filename="coast.jpg">
+        <div class="badge-new">panorama</div>
+        <div class="img-wrap"><img src="https://picsum.photos/id/100/600/450" alt="coast" loading="lazy"></div>
+        <div class="caption">rocky coast</div>
+        <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">coast</span><span class="tag">ocean</span></div></div>
+      </div>
+      <div class="h-card" data-img="https://picsum.photos/id/104/600/450" data-filename="city.jpg">
+        <div class="img-wrap"><img src="https://picsum.photos/id/104/600/450" alt="city" loading="lazy"></div>
+        <div class="caption">night skyline</div>
+        <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">city</span><span class="tag">night</span></div></div>
+      </div>
+      <div class="h-card" data-img="https://picsum.photos/id/102/600/450" data-filename="forest.jpg">
+        <div class="img-wrap"><img src="https://picsum.photos/id/102/600/450" alt="forest" loading="lazy"></div>
+        <div class="caption">mossy forest</div>
+        <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">forest</span><span class="tag">moss</span></div></div>
+      </div>
+      <div class="h-card" data-img="https://picsum.photos/id/107/600/450" data-filename="wheat.jpg">
+        <div class="img-wrap"><img src="https://picsum.photos/id/107/600/450" alt="wheat" loading="lazy"></div>
+        <div class="caption">golden wheat</div>
+        <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">fields</span><span class="tag">harvest</span></div></div>
+      </div>
+      <div class="h-card" data-img="https://picsum.photos/id/108/600/450" data-filename="dog.jpg">
+        <div class="img-wrap"><img src="https://picsum.photos/id/108/600/450" alt="dog" loading="lazy"></div>
+        <div class="caption">happy retriever</div>
+        <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">dog</span><span class="tag">pet</span></div></div>
+      </div>
+      <div class="h-card" data-img="https://picsum.photos/id/114/600/450" data-filename="bridge.jpg">
+        <div class="img-wrap"><img src="https://picsum.photos/id/114/600/450" alt="bridge" loading="lazy"></div>
+        <div class="caption">golden gate</div>
+        <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">bridge</span><span class="tag">landmark</span></div></div>
+      </div>
+      <div class="h-card" data-img="https://picsum.photos/id/116/600/450" data-filename="leaves.jpg">
+        <div class="img-wrap"><img src="https://picsum.photos/id/116/600/450" alt="leaves" loading="lazy"></div>
+        <div class="caption">fall colors</div>
+        <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">autumn</span><span class="tag">leaves</span></div></div>
+      </div>
+      <div class="h-card" data-img="https://picsum.photos/id/117/600/450" data-filename="camera.jpg">
+        <div class="img-wrap"><img src="https://picsum.photos/id/117/600/450" alt="camera" loading="lazy"></div>
+        <div class="caption">old leica</div>
+        <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">vintage</span><span class="tag">camera</span></div></div>
+      </div>
+      <div class="h-card" data-img="https://picsum.photos/id/119/600/450" data-filename="bird.jpg">
+        <div class="img-wrap"><img src="https://picsum.photos/id/119/600/450" alt="bird" loading="lazy"></div>
+        <div class="caption">blue jay</div>
+        <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">bird</span><span class="tag">wildlife</span></div></div>
+      </div>
+      <div class="h-card" data-img="https://picsum.photos/id/120/600/450" data-filename="lighthouse.jpg">
+        <div class="img-wrap"><img src="https://picsum.photos/id/120/600/450" alt="lighthouse" loading="lazy"></div>
+        <div class="caption">lighthouse</div>
+        <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">coastal</span><span class="tag">beacon</span></div></div>
+      </div>
+      <div class="h-card" data-img="https://picsum.photos/id/121/600/450" data-filename="stairs.jpg">
+        <div class="img-wrap"><img src="https://picsum.photos/id/121/600/450" alt="stairs" loading="lazy"></div>
+        <div class="caption">endless steps</div>
+        <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">urban</span><span class="tag">stairs</span></div></div>
+      </div>
+      <div class="h-card" data-img="https://picsum.photos/id/122/600/450" data-filename="canyon.jpg">
+        <div class="img-wrap"><img src="https://picsum.photos/id/122/600/450" alt="canyon" loading="lazy"></div>
+        <div class="caption">antelope canyon</div>
+        <div class="interactive-bar"><div class="left-actions"><button class="action-btn star-btn" onclick="toggleStar(this)"><i class="far fa-star"></i></button><button class="action-btn download-btn" onclick="downloadImage(this)"><i class="fas fa-download"></i></button></div><div class="tags"><span class="tag">canyon</span><span class="tag">rock</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Martech · syntecxhub ·</p>
+  </div>
+</div>
+
+<!-- JavaScript for interactions -->
+<script>
+  function setTheme(theme) {
+    if (theme === 'dark') {
+      document.body.classList.add('dark');
+      document.getElementById('dark').checked = true;
+    } else {
+      document.body.classList.remove('dark');
+      document.getElementById('light').checked = true;
+    }
+  }
+  document.getElementById('light').addEventListener('change', e => e.target.checked && setTheme('light'));
+  document.getElementById('dark').addEventListener('change', e => e.target.checked && setTheme('dark'));
+
+  // star toggle
+  function toggleStar(btn) {
+    btn.classList.toggle('starred');
+    const icon = btn.querySelector('i');
+    if (btn.classList.contains('starred')) {
+      icon.classList.remove('far');
+      icon.classList.add('fas');
+    } else {
+      icon.classList.remove('fas');
+      icon.classList.add('far');
+    }
+  }
+
+  // download image using fetch and blob (works with picsum CORS)
+  async function downloadImage(btn) {
+    const card = btn.closest('.card, .h-card');
+    if (!card) return;
+    const imgUrl = card.dataset.img;
+    const filename = card.dataset.filename || 'image.jpg';
+    try {
+      const response = await fetch(imgUrl);
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.warn('Download failed, opening image instead.');
+      window.open(imgUrl, '_blank');
+    }
+  }
+</script>
+</body>
+</html>
