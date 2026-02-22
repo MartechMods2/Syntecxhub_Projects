@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Martech · Linux · frontend · design</title>
+  <!-- Font Awesome 6 (free) – only CSS, no JS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ----- RESET & VARIABLES ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #1e3c5c;       /* deep navy – modern & calm */
+      --primary-light: #2b4f73;
+      --accent: #40a798;         /* soft teal – fresh accent */
+      --bg: #f9fcff;             /* very light blueish white */
+      --bg-card: #ffffff;
+      --text-dark: #1a2b3e;
+      --text-muted: #4a5f73;
+      --shadow-sm: 0 10px 20px -8px rgba(0,40,60,0.15);
+      --shadow-hover: 0 20px 30px -10px rgba(0,90,100,0.25);
+      --border-radius: 24px;
+      --transition: all 0.25s ease-in-out;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: var(--bg);
+      color: var(--text-dark);
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    /* ----- TYPOGRAPHY & LINKS ----- */
+    h1, h2, h3 {
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: 2.3rem;
+      margin-bottom: 2rem;
+      color: var(--primary);
+      position: relative;
+      display: inline-block;
+    }
+    h2:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 70px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 4px;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ----- STICKY NAVIGATION ----- */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+      z-index: 99;
+      padding: 16px 0;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+    .logo span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+      font-weight: 500;
+    }
+    .nav-links a {
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+      transition: var(--transition);
+    }
+    .nav-links a:hover {
+      border-bottom-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ----- SECTION SPACING & OFFSET (for sticky nav) ----- */
+    section {
+      scroll-margin-top: 90px;
+      padding: 90px 0;
+    }
+
+    /* ----- ABOUT SECTION (with avatar) ----- */
+    .about-content {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .avatar {
+      width: 260px;
+      height: 260px;
+      background: linear-gradient(145deg, var(--primary), var(--accent));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6rem;
+      font-weight: 600;
+      color: white;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .avatar:hover {
+      transform: scale(1.02) rotate(2deg);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .bio h1 {
+      font-size: 3.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+    .bio p {
+      font-size: 1.3rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 1.5rem 0 2rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 14px 38px;
+      border-radius: 60px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      box-shadow: 0 8px 16px -8px var(--primary);
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+    .btn:hover {
+      background: var(--accent);
+      box-shadow: 0 12px 24px -10px var(--accent);
+      transform: translateY(-4px);
+      color: white;
+    }
+
+    /* ----- SKILLS grid (exactly three: linux, frontend, design) ----- */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      padding: 2.5rem 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+      transition: var(--transition);
+      border: 1px solid rgba(64, 167, 152, 0.1);
+    }
+    .skill-card:hover {
+      transform: scale(1.02) translateY(-8px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--accent);
+    }
+
+    .skill-card i {
+      font-size: 3.5rem;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .skill-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 0.75rem;
+      color: var(--primary);
+    }
+
+    .skill-card p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    /* ----- PROJECTS grid (three cards) ----- */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .project-card:hover {
+      transform: translateY(-12px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .project-img {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      transition: var(--transition);
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 1rem;
+      color: white;
+      font-weight: 700;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    /* distinct project images using gradients (no external images) */
+    .project-card:nth-child(1) .project-img {
+      background: linear-gradient(135deg, #0b3a4b, #1b7b6e);
+    }
+    .project-card:nth-child(2) .project-img {
+      background: linear-gradient(135deg, #153b5c, #30838c);
+    }
+    .project-card:nth-child(3) .project-img {
+      background: linear-gradient(135deg, #2d4b3a, #588c7e);
+    }
+
+    .project-card h3 {
+      font-size: 1.6rem;
+      margin: 1.2rem 1.2rem 0.5rem;
+      color: var(--primary);
+    }
+    .project-card p {
+      color: var(--text-muted);
+      margin: 0 1.2rem 1.8rem 1.2rem;
+      font-size: 1rem;
+    }
+
+    /* ----- CONTACT section (clean & minimal) ----- */
+    .contact-info {
+      background: var(--bg-card);
+      border-radius: var(--border-radius);
+      padding: 3rem 2.5rem;
+      box-shadow: var(--shadow-sm);
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      border: 1px solid rgba(64, 167, 152, 0.2);
+    }
+
+    .contact-info p {
+      font-size: 1.4rem;
+      margin: 1.5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: var(--text-dark);
+    }
+
+    .contact-info i {
+      color: var(--accent);
+      width: 2rem;
+      font-size: 2rem;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+    .social-links a {
+      background: var(--primary);
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 60px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      transition: var(--transition);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .social-links a:hover {
+      background: var(--accent);
+      transform: scale(1.15) rotate(4deg);
+    }
+
+    /* ----- FOOTER ----- */
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(0,0,0,0.05);
+      font-size: 1rem;
+    }
+
+    /* ----- RESPONSIVE DESIGN (mobile first adjustments) ----- */
+    @media screen and (max-width: 900px) {
+      h2 { font-size: 2rem; }
+      .about-content { gap: 2rem; justify-content: center; text-align: center; }
+      .bio h1 { font-size: 2.8rem; }
+      .bio p { font-size: 1.2rem; margin-left: auto; margin-right: auto; }
+      .skills-grid, .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media screen and (max-width: 680px) {
+      .nav-container { flex-direction: column; gap: 0.8rem; }
+      .nav-links { gap: 1.2rem; flex-wrap: wrap; justify-content: center; }
+      .logo { font-size: 2rem; }
+
+      h2:after { left: 50%; transform: translateX(-50%); width: 100px; }
+      h2 { text-align: center; display: block; }
+
+      .about-content { flex-direction: column; }
+      .avatar { width: 200px; height: 200px; font-size: 4.5rem; }
+
+      .skills-grid, .projects-grid { grid-template-columns: 1fr; }
+      .contact-info p { flex-direction: column; gap: 0.3rem; font-size: 1.2rem; }
+    }
+
+    @media screen and (max-width: 450px) {
+      section { padding: 60px 0; }
+      .bio h1 { font-size: 2.4rem; }
+      .btn { padding: 12px 30px; }
+      .social-links a { width: 50px; height: 50px; font-size: 1.7rem; }
+    }
+
+    /* extra polish */
+    .skill-card, .project-card, .btn, .social-links a {
+      cursor: default;   /* because it's a static portfolio, but links are dummy */
+    }
+    .nav-links a, .social-links a, .btn {
+      cursor: pointer;
+    }
+    /* dummy email/phone no actual link – but style fine */
+    .contact-info p i {
+      transition: var(--transition);
+    }
+    .contact-info p:hover i {
+      transform: scale(1.2);
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <div class="logo">Martech<span>.</span></div>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ABOUT SECTION (includes name & intro) -->
+  <section id="about">
+    <div class="container">
+      <div class="about-content">
+        <div class="avatar">M</div>
+        <div class="bio">
+          <h1>Hi, I'm Martech</h1>
+          <p>I breathe Linux, craft frontend interfaces, and design visual stories. With a blend of system engineering and creative code, I build digital experiences that are both robust and beautiful.</p>
+          <a href="#contact" class="btn">Let's connect</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS SECTION (explicit: Linux, frontend, graphic design) -->
+  <section id="skills">
+    <div class="container">
+      <h2>Core expertise</h2>
+      <div class="skills-grid">
+        <!-- Linux card -->
+        <div class="skill-card">
+          <i class="fab fa-linux"></i>
+          <h3>Linux</h3>
+          <p>System administration, bash scripting, server hardening, and automation. From Ubuntu to Arch, I make terminals talk.</p>
+        </div>
+        <!-- Frontend Web Development card -->
+        <div class="skill-card">
+          <i class="fas fa-code"></i>
+          <h3>Frontend Dev</h3>
+          <p>HTML5, CSS3, JavaScript, responsive layouts, and modern frameworks. Pixel-perfect, accessible, and performant.</p>
+        </div>
+        <!-- Graphic Design card -->
+        <div class="skill-card">
+          <i class="fas fa-paint-brush"></i>
+          <h3>Graphic Design</h3>
+          <p>Brand identity, UI/UX, Adobe Suite, and vector art. I merge aesthetics with function to tell compelling stories.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS SECTION – three dummy projects matching the skills -->
+  <section id="projects">
+    <div class="container">
+      <h2>Selected work</h2>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-img"></div>
+          <h3>Linux lockdown</h3>
+          <p>Hardened LAMP stack with automated fail2ban, firewall rules, and encrypted backups for a fintech startup.</p>
+        </div>
+        <div class="project-card">
+          <div class="project-img"></div>
+          <h3>Portfolio 2025</h3>
+          <p>This very website — pure HTML+CSS, fully responsive, with smooth hover stories and a modern teal touch.</p>
+        </div>
+        <div class="project-card">
+          <div class="project-img"></div>
+          <h3>Brand evolution</h3>
+          <p>Complete rebrand for a local roastery: logo design, packaging, and social media templates (print & digital).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION (no actual mailto, just dummy info) -->
+  <section id="contact">
+    <div class="container">
+      <h2>Reach out</h2>
+      <div class="contact-info">
+        <p><i class="fas fa-envelope"></i> martech@creative.space</p>
+        <p><i class="fas fa-phone-alt"></i> +1 (415) 867 · 5309</p>
+        <div class="social-links">
+          <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Dribbble"><i class="fab fa-dribbble"></i></a>
+        </div>
+        <p style="font-size:1rem; margin-top:2rem; color:var(--text-muted);">(placeholder contacts – let's pretend)</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2025 Martech · built with HTML & CSS only · clean & responsive</p>
+    </div>
+  </footer>
+</body>
+</html>
