@@ -10,7 +10,7 @@ This is my inaugural project completed through the Syntecxhub program, showcasin
 
 [![Portfolio](https://img.shields.io/badge/View%20Portfolio-Click%20Here-blue?style=for-the-badge)](https://martechmods2.github.io/Syntecxhub_Projects/Portfolio.html)
 
-[![Gallery](https://img.shields.io/badge/View%20Portfolio-Click%20Here-blue?style=for-the-badge)](https://martechmods2.github.io/Syntecxhub_Projects/Gallery.html)
+[![Gallery](https://img.shields.io/badge/View%20Gallery-Click%20Here-blue?style=for-the-badge)](https://martechmods2.github.io/Syntecxhub_Projects/Gallery.html)
 
 ---
 
